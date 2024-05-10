@@ -20,7 +20,7 @@ else:
   port = 8080
 
 def loadConfigs():
-    """Load config file and create needed objects.
+    """Carga el archivo de configuración y asigna las variables.
 
     Args: 
         None
