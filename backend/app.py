@@ -1,5 +1,5 @@
 from threading import Thread
-from waitress import serve
+#from waitress import serve
 import json
 from time import localtime, sleep, strftime, localtime, time
 import pdoc
@@ -141,8 +141,9 @@ class listarTareas(Resource):
         returnData = {}
         try:
             returnData['success'] = True
-            for t in tareas:
-                
+            if len(tareas)>0:
+                for t in tareas:
+                    _tit, _desc, _est, _fetch = t.getInfo()
             returnData['message'] = None
         except:
             returnData['success'] = False

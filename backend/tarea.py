@@ -40,7 +40,7 @@ class Tarea:
         else:
             return "Quedan "+str(self.fecha - datetime.today())+"días"
 
-    def __str__(self):
-        """Devuelve la representación en cadena de la tarea."""
-        return self.titulo+": "+self.descripcion+"\n"+self.estado
+    def getInfo(self):
+        """Devuelve los elementos que definen la tarea"""
+        return self.titulo, self.descripcion, self.estado, self.fecha
 

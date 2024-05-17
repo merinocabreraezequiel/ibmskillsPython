@@ -31,10 +31,10 @@ Gestor de tareas en python
 
 Iniciar Procesos
 
-> Ejecutar desde la carpeta py
+> Ejecutar
 >> """python .\backend\app.py"""
 
-> Acceder mediante navegador web: [website](http://127.0.0.1:8080/web)
+> Acceder mediante navegador web: [website](http://127.0.0.1:8080)
 
 ## Acerca de
 > Developed by Ezequiel Merino [Github](https://github.com/merinocabreraezequiel)

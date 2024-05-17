@@ -12,6 +12,9 @@ import json
 import subprocess
 import time
 
+import http.server
+import socketserver
+
 
 #skReading portnumber from command line
 if sys.argv[1:]:
@@ -40,46 +43,15 @@ def loadConfigs():
     return(json.loads(string_double_quotes))
 
 
-def iniciar_servidores():
-    """Enrutar una fuente en un destino.
-
-    Args: 
-        None
-    
-    Return:
-        proceso_php <subprocess>: configuración de proceso para php
-        proceso_nginx <subprocess>: configuración de proceso para nginx
-    
-    Description:
-        crea las dos variables para servir la web en http y https
-    """
-    # Comando para iniciar PHP-FPM
-    proceso_php = subprocess.Popen(["php-cgi.exe", "-b", "127.0.0.1:9000"])
-    return proceso_php
-
-def verificar_servidores(proceso_php, proceso_nginx):
-    """Control de estado del servidor frontend.
-
-    Args: 
-        proceso_php <subprocess>: configuración de proceso para php
-        proceso_nginx <subprocess>: configuración de proceso para nginx
-    
-    Return:
-        None
-    
-    Description:
-        Comprueba que el servidor esté opreativo cada 5 segundos y lo relanza en caso de error
-    """
-    while True:
-        estado_php = proceso_php.poll()
-        # Si algún proceso se detiene, lo reiniciamos
-        if estado_php is not None:
-            proceso_php = subprocess.Popen(["php-cgi.exe", "-b", "127.0.0.1:9000"])
-        time.sleep(5)  # Espera 5 segundos antes de volver a verificar
-
-
 configure=loadConfigs()
 """Carga la configuración del archivo de configuracaión"""
 
-print("PHP Web Server started")
-os.system('PHP -S '+configure["server"]+':'+str(port)+' -c php.ini -t .')
+class handlerhttp(http.server.SimpleHTTPRequestHandler):
+    def translate_path(self, path):
+        path = super().translate_path(path)
+        relpath = os.path.relpath(path, os.getcwd())
+        return os.path.join(configure["webpath"], relpath)
+
+with socketserver.TCPServer(('', port), handlerhttp) as httpd:
+    print(f'Servidor web iniciado en http://localhost:{port}')
+    httpd.serve_forever()
