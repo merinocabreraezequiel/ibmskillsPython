@@ -76,7 +76,6 @@ def FrontEndSrv():
     """
     os.system('cd '+str(configure["path"])+'\\frontend && python .\\web.py')
 
-
 @auth.verify_password
 def verify(username, password):
     """Check the user/password validation.
@@ -277,7 +276,7 @@ def internal_server_error(error):
    return {"succes": False, "error":500, "message":"500 Server Error"}, 500
 
  
-api.add_resource(nuevaTarea, '/nt/<string:titulo>/<string:destuino>/<string>:fecha')
+api.add_resource(nuevaTarea, '/nt/<string:titulo>/<string:descripcion>/<string:fecha>')
 api.add_resource(listarTareas, '/lt')
 api.add_resource(retrasarTarea, '/rt/<int:id>')
 api.add_resource(completarTarea, '/ct/<int:id>')

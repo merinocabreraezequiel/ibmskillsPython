@@ -5,3 +5,16 @@ html{
     background: #F7F8FA 0% 0% no-repeat padding-box;
     opacity: 1;
 }
+
+#listadoTareas table {
+    width: 100%;
+    border-collapse: collapse;
+}
+#listadoTareas th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+#listadoTareas th {
+    background-color: #f2f2f2;
+}

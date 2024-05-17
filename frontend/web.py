@@ -3,8 +3,6 @@
 ORisTIC like web for blustream python APIRest with Auth
 Usage::
     python web.py 8080
-Based on:
-    https://blog.sverrirs.com/2016/11/simple-http-webserver-python.html
 """
 import os
 import sys

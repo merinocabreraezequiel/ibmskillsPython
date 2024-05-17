@@ -16,6 +16,7 @@ class Tarea:
         self.estado = self.estadosTarea[0]
         self.fecha = _fechaCaducidad
         self.titulo = _titulo
+        print(self.titulo, self.descripcion, self.fecha, self.estado)
 
     def completar(self):
         """Marca la tarea como completada."""

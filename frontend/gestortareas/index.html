@@ -4,15 +4,61 @@
         <meta charset="UTF-8">
 
         <script language="javascript" src="js/jquery-3.6.0.min.js"></script>
+        <script language="javascript" src="js/commom.js"></script>
         <script language="javascript" src="js/apitareas.js"></script>
 
         <link rel="stylesheet" href="css/commom.css">
 
         <TITLE>
-            IBM SKILLS - PROYECTO FINAL
+            IBM SKILLS - PRO YECTO FINAL
         </TITLE>
     </HEAD>
     <BODY>
-
+        <div id="listadoTareas" name="listadoTareas">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Descripción</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Lorem Ipsum Dolor</td>
+                        <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
+                        <td>2024-05-01</td>
+                        <td>Activo</td>
+                    </tr>
+                    <tr>
+                        <td>Sed Do Eiusmod</td>
+                        <td>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</td>
+                        <td>2024-05-02</td>
+                        <td>Inactivo</td>
+                    </tr>
+                    <tr>
+                        <td>Consectetur Adipiscing</td>
+                        <td>Consectetur adipiscing elit, sed do eiusmod tempor.</td>
+                        <td>2024-05-03</td>
+                        <td>Pendiente</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="nuevatarea" name="nuevatarea">
+            <form id="registroTarea">
+                <label for="titulo">Título:</label><br>
+                <input type="text" id="titulo" name="titulo" required><br><br>
+                
+                <label for="descripcion">Descripción:</label><br>
+                <textarea id="descripcion" name="descripcion" required></textarea><br><br>
+                
+                <label for="fecha">Fecha:</label><br>
+                <input type="date" id="fecha" name="fecha" required><br><br>
+                
+                <button type="button" id="btn_registro_tarea">Registrar</button>
+            </form>
+        </div>
     </BODY>
 </HTML>
