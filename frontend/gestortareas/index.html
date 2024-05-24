@@ -22,6 +22,7 @@
                         <th>Descripción</th>
                         <th>Fecha</th>
                         <th>Estado</th>
+                        <th>Editar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -29,17 +30,47 @@
             </table>
         </div>
         <div id="nuevatarea" name="nuevatarea">
+            <H1>NUEVA TAREA</H1>
             <form id="registroTarea">
-                <label for="titulo">Título:</label><br>
+                <label for="titulo">Título:</label>
                 <input type="text" id="titulo" name="titulo" required><br><br>
                 
-                <label for="descripcion">Descripción:</label><br>
+                <label for="descripcion">Descripción:</label>
                 <textarea id="descripcion" name="descripcion" required></textarea><br><br>
                 
-                <label for="fecha">Fecha:</label><br>
+                <label for="fecha">Fecha:</label>
                 <input type="date" id="fecha" name="fecha" required><br><br>
                 
                 <button type="button" id="btn_registro_tarea">Registrar</button>
+            </form>
+        </div>
+        <div id="editartarea" name="editartarea">
+            <H1>Editar TAREA</H1>
+            <form id="registroTarea">
+                <input type="hidden" name="up_hidden_id" id="up_hidden_id" value="">
+                <label for="up_titulo">Título:</label><br>
+                <input type="text" id="up_titulo" name="up_titulo" required>
+                <button type="button" id="btn_up_tit">Actualizar Título</button><br><br>
+                
+                <label for="up_descripcion">Descripción:</label><br>
+                <textarea id="up_descripcion" name="up_descripcion" required></textarea>
+                <button type="button" id="btn_up_desc">Actualizar Descripción</button><br><br>
+                
+                <label for="up_fecha">Fecha:</label><br>
+                <input type="date" id="up_fecha" name="up_fecha" required>
+                <button type="button" id="btn_up_fecha">Actualizar Fecha</button><br><br>
+
+                <label for="up_estado">Estado:</label><br>
+                    <select id="up_estado" name="up_estado" required>
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="Completada">Completada</option>
+                        <option value="En Curso">En Curso</option>
+                        <option value="Caducada">Caducada</option>
+                        <option value="Descartada">Descartada</option>
+                    </select>
+                <button type="button" id="btn_up_estado">Actualizar Fecha</button><br><br>
+                
+                <button type="button" id="btn_eliminar">ELIMINAR</button>
             </form>
         </div>
     </BODY>

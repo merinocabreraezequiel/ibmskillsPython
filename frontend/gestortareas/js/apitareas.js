@@ -1,3 +1,5 @@
+let tablatareas;
+
 function ConvertToJSON(jsonrecibido){
     jsonobj = JSON.parse(jsonrecibido);
     return jsonobj;
@@ -15,9 +17,10 @@ function CargarTareas(limpiar=false){
             for(let item in jsonresult.tareas){
                 if (jsonresult.tareas.hasOwnProperty(item)) {
                     let tarea = jsonresult.tareas[item];
-                    $('#listadoTareas tbody').append('<tr><td>'+tarea.titulo+'</td><td>'+tarea.descripcion+'</td><td>'+tarea.fecha+'</td><td>'+tarea.estado+'</td></tr>');
+                    $('#listadoTareas tbody').append('<tr><td>'+tarea.titulo+'</td><td>'+tarea.descripcion+'</td><td>'+tarea.fecha+'</td><td>'+tarea.estado+'</td><td><button onclick="rellenar_actualizador('+tarea.id+')">editar</button></td></tr>');
                 }
             }
+            tablatareas = jsonresult.tareas;
         },
         error:function(XMLHttpRequest, textStatus, errorThrown){
             console.log('Status: '+textStatus+' Error: '+errorThrown);
@@ -39,4 +42,13 @@ function NuevaTarea(titulo, descripcion, fecha){
     $('#titulo').val('');
     $('#descripcion').val('');
     $('#fecha').val('');
+}
+
+function rellenar_actualizador(id_tarea){
+    $('#up_titulo').val(tablatareas[id_tarea].titulo);
+    $('#up_descripcion').val(tablatareas[id_tarea].descripcion);
+    $('#up_fecha').val(tablatareas[id_tarea].fecha);
+    $('#up_estado').val(tablatareas[id_tarea].estado);
+    $('#up_hidden_id').val(id_tarea);
+    $('#up_titulo').focus();
 }

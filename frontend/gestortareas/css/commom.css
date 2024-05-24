@@ -24,3 +24,9 @@ html{
     margin-top: 5px;
     padding-left:5px;
 }
+
+#editartarea {
+    border: solid darkgray 1px;
+    margin-top: 5px;
+    padding-left:5px;
+}
