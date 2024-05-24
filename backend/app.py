@@ -109,10 +109,14 @@ class nuevaTarea(Resource):
     """
     @auth.login_required
     def get(self, titulo, descripcion, fecha):
+        global tareas
+
         returnData = {}
         try:
             nueva_tarea = Tarea(titulo, descripcion, fecha)
+            print(len(tareas))
             tareas[len(tareas)] = nueva_tarea
+            print(len(tareas))
             returnData['success'] = True
             returnData['message'] = None
         except:
@@ -141,8 +145,15 @@ class listarTareas(Resource):
         try:
             returnData['success'] = True
             if len(tareas)>0:
-                for t in tareas:
-                    _tit, _desc, _est, _fetch = t.getInfo()
+                returnData['tareas']={}
+                for i in tareas:
+                    returnData['tareas'][i]={}
+                    _tit, _desc, _est, _fetch = tareas[i].getInfo()
+                    returnData['tareas'][i]['id'] = i
+                    returnData['tareas'][i]['titulo'] = _tit
+                    returnData['tareas'][i]['descripcion'] = _desc
+                    returnData['tareas'][i]['estado'] = _est
+                    returnData['tareas'][i]['fecha'] = _fetch
             returnData['message'] = None
         except:
             returnData['success'] = False
