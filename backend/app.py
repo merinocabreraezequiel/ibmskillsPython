@@ -162,7 +162,7 @@ class listarTareas(Resource):
         returnJSON = json.dumps(returnData)
         return returnJSON 
 
-class retrasarTarea(Resource):
+class actualizarTitulo(Resource):
     """Enrutar una fuente en un destino.
 
     Args: 
@@ -176,11 +176,10 @@ class retrasarTarea(Resource):
         Asigna desde el ACM500 a un decoder un encoder, recoge la repuesta y devuelve la estructura los datos en un json
     """
     @auth.login_required
-    def get(self, id):
+    def get(self, _id, _titulo):
         returnData = {}
         try:
-            nueva_tarea = Tarea(titulo, descripcion, fecha)
-            tareas[len(tareas)] = nueva_tarea
+            Tarea[_id].updateTitulo(_titulo)
             returnData['success'] = True
             returnData['message'] = None
         except:
@@ -188,91 +187,7 @@ class retrasarTarea(Resource):
             returnData['message'] = None
 
         returnJSON = json.dumps(returnData)
-        return returnJSON 
-
-class completarTarea(Resource):
-    """Enrutar una fuente en un destino.
-
-    Args: 
-        destino <string>: código del decoder
-        origen <string>: código del encoder
-    
-    Return:
-        returnJson <json>: output de la respuesta de ACM500 con la información de la asignación
-    
-    Description:
-        Asigna desde el ACM500 a un decoder un encoder, recoge la repuesta y devuelve la estructura los datos en un json
-    """
-    @auth.login_required
-    def get(self, id):
-        returnData = {}
-        try:
-            nueva_tarea = Tarea(titulo, descripcion, fecha)
-            tareas[len(tareas)] = nueva_tarea
-            returnData['success'] = True
-            returnData['message'] = None
-        except:
-            returnData['success'] = False
-            returnData['message'] = None
-
-        returnJSON = json.dumps(returnData)
-        return returnJSON 
-
-class volverPendiente(Resource):
-    """Enrutar una fuente en un destino.
-
-    Args: 
-        destino <string>: código del decoder
-        origen <string>: código del encoder
-    
-    Return:
-        returnJson <json>: output de la respuesta de ACM500 con la información de la asignación
-    
-    Description:
-        Asigna desde el ACM500 a un decoder un encoder, recoge la repuesta y devuelve la estructura los datos en un json
-    """
-    @auth.login_required
-    def get(self, id):
-        returnData = {}
-        try:
-            nueva_tarea = Tarea(titulo, descripcion, fecha)
-            tareas[len(tareas)] = nueva_tarea
-            returnData['success'] = True
-            returnData['message'] = None
-        except:
-            returnData['success'] = False
-            returnData['message'] = None
-
-        returnJSON = json.dumps(returnData)
-        return returnJSON 
-
-class descartarTarea(Resource):
-    """Enrutar una fuente en un destino.
-
-    Args: 
-        destino <string>: código del decoder
-        origen <string>: código del encoder
-    
-    Return:
-        returnJson <json>: output de la respuesta de ACM500 con la información de la asignación
-    
-    Description:
-        Asigna desde el ACM500 a un decoder un encoder, recoge la repuesta y devuelve la estructura los datos en un json
-    """
-    @auth.login_required
-    def get(self, id):
-        returnData = {}
-        try:
-            nueva_tarea = Tarea(titulo, descripcion, fecha)
-            tareas[len(tareas)] = nueva_tarea
-            returnData['success'] = True
-            returnData['message'] = None
-        except:
-            returnData['success'] = False
-            returnData['message'] = None
-
-        returnJSON = json.dumps(returnData)
-        return returnJSON 
+        return returnJSON
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -286,13 +201,14 @@ def unathorized_user(error):
 def internal_server_error(error):
    return {"succes": False, "error":500, "message":"500 Server Error"}, 500
 
- 
+
+api.add_resource(listarTareas, '/lt') 
 api.add_resource(nuevaTarea, '/nt/<string:titulo>/<string:descripcion>/<string:fecha>')
-api.add_resource(listarTareas, '/lt')
-api.add_resource(retrasarTarea, '/rt/<int:id>')
-api.add_resource(completarTarea, '/ct/<int:id>')
-api.add_resource(volverPendiente, '/vp/<int:id>')
-api.add_resource(descartarTarea, '/dt/<int:id>')
+api.add_resource(eliminarTarea, '/et/<int:id>')
+api.add_resource(cambiarEstado, '/ce/<int:id>/<int:estado>')
+api.add_resource(actualizarTitulo, '/at/<int:id>/<string:titulo>')
+api.add_resource(actualizarDescripcion, '/ad/<int:id>/<string:desc>')
+api.add_resource(actualizarFecha, '/af/<int:id>/<string:fecha>')
 
 configure=""
 """<json> con la configuración del sistema."""

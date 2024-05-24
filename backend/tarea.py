@@ -22,17 +22,17 @@ class Tarea:
         """Marca la tarea como completada."""
         self.estado = self.estadosTarea[1]
     
-    def actualizarFecha(self, _nuevaFecha):
+    def updateFecha(self, _nuevaFecha):
         self.fecha = _nuevaFecha
     
-    def pasarPendiente(self):
-        self.estado = self.estadosTarea[0]
-    
-    def inciarTarea(self):
-        self.estado = self.estadosTarea[2]
-    
-    def descartar(self):
-        self.estado = self.estadosTarea[4]
+    def updateTitulo(self, _titulo):
+        self.titulo = _titulo
+
+    def updateDescripcion(self, _descripcion):
+        self.descripcion = _descripcion
+
+    def updateEstado(self, _codigoEstado):
+        self.estado = self.estadosTarea[_codigoEstado]
     
     def caducidad(self):
         if self.fecha >= datetime.today():

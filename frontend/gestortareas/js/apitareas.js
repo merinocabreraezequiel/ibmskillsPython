@@ -17,7 +17,7 @@ function CargarTareas(limpiar=false){
             for(let item in jsonresult.tareas){
                 if (jsonresult.tareas.hasOwnProperty(item)) {
                     let tarea = jsonresult.tareas[item];
-                    $('#listadoTareas tbody').append('<tr><td>'+tarea.titulo+'</td><td>'+tarea.descripcion+'</td><td>'+tarea.fecha+'</td><td>'+tarea.estado+'</td><td><button onclick="rellenar_actualizador('+tarea.id+')">editar</button></td></tr>');
+                    $('#listadoTareas tbody').append('<tr><td>'+tarea.id+'</td><td>'+tarea.titulo+'</td><td>'+tarea.descripcion+'</td><td>'+tarea.fecha+'</td><td>'+tarea.estado+'</td><td><button onclick="rellenar_actualizador('+tarea.id+')">editar</button></td></tr>');
                 }
             }
             tablatareas = jsonresult.tareas;
@@ -26,6 +26,7 @@ function CargarTareas(limpiar=false){
             console.log('Status: '+textStatus+' Error: '+errorThrown);
         }
     });
+    $('html, body').animate({ scrollTop: 0 }, 'slow');
 }
 
 function NuevaTarea(titulo, descripcion, fecha){
@@ -44,6 +45,20 @@ function NuevaTarea(titulo, descripcion, fecha){
     $('#fecha').val('');
 }
 
+function ActualizarTitulo(up_id, up_titulo){
+    $.ajax({type:'GET',
+        beforeSend: function (xhr){xhr.setRequestHeader("Authorization", "Basic " + btoa(username + ":"+ password));},
+        url:'http://127.0.0.1:5000/v1/at/'+up_id+'/'+up_titulo,
+        success:function(result){
+            CargarTareas(true);
+        },
+        error:function(XMLHttpRequest, textStatus, errorThrown){
+            console.log('Status: '+textStatus+' Error: '+errorThrown);
+        }
+    });
+    limpiar_actualizador();
+}
+
 function rellenar_actualizador(id_tarea){
     $('#up_titulo').val(tablatareas[id_tarea].titulo);
     $('#up_descripcion').val(tablatareas[id_tarea].descripcion);
@@ -51,4 +66,12 @@ function rellenar_actualizador(id_tarea){
     $('#up_estado').val(tablatareas[id_tarea].estado);
     $('#up_hidden_id').val(id_tarea);
     $('#up_titulo').focus();
+}
+
+function limpiar_actualizador(){
+    $('#up_titulo').val();
+    $('#up_descripcion').val();
+    $('#up_fecha').val();
+    $('#up_estado').val();
+    $('#up_hidden_id').val();
 }
