@@ -59,19 +59,92 @@ function ActualizarTitulo(up_id, up_titulo){
     limpiar_actualizador();
 }
 
+function ActualizarDescripcion(up_id, up_descripcion){
+    $.ajax({type:'GET',
+        beforeSend: function (xhr){xhr.setRequestHeader("Authorization", "Basic " + btoa(username + ":"+ password));},
+        url:'http://127.0.0.1:5000/v1/ad/'+up_id+'/'+up_descripcion,
+        success:function(result){
+            CargarTareas(true);
+        },
+        error:function(XMLHttpRequest, textStatus, errorThrown){
+            console.log('Status: '+textStatus+' Error: '+errorThrown);
+        }
+    });
+    limpiar_actualizador();
+}
+
+function ActualizarFecha(up_id, up_fecha){
+    $.ajax({type:'GET',
+        beforeSend: function (xhr){xhr.setRequestHeader("Authorization", "Basic " + btoa(username + ":"+ password));},
+        url:'http://127.0.0.1:5000/v1/af/'+up_id+'/'+up_fecha,
+        success:function(result){
+            CargarTareas(true);
+        },
+        error:function(XMLHttpRequest, textStatus, errorThrown){
+            console.log('Status: '+textStatus+' Error: '+errorThrown);
+        }
+    });
+    limpiar_actualizador();
+}
+
+function ActualizarEstado(up_id, up_estado){
+    $.ajax({type:'GET',
+        beforeSend: function (xhr){xhr.setRequestHeader("Authorization", "Basic " + btoa(username + ":"+ password));},
+        url:'http://127.0.0.1:5000/v1/ce/'+up_id+'/'+up_estado,
+        success:function(result){
+            CargarTareas(true);
+        },
+        error:function(XMLHttpRequest, textStatus, errorThrown){
+            console.log('Status: '+textStatus+' Error: '+errorThrown);
+        }
+    });
+    limpiar_actualizador();
+}
+function EliminarTarea(up_id){
+    $.ajax({type:'GET',
+        beforeSend: function (xhr){xhr.setRequestHeader("Authorization", "Basic " + btoa(username + ":"+ password));},
+        url:'http://127.0.0.1:5000/v1/et/'+up_id,
+        success:function(result){
+            CargarTareas(true);
+        },
+        error:function(XMLHttpRequest, textStatus, errorThrown){
+            console.log('Status: '+textStatus+' Error: '+errorThrown);
+        }
+    });
+    limpiar_actualizador();
+}
+
 function rellenar_actualizador(id_tarea){
     $('#up_titulo').val(tablatareas[id_tarea].titulo);
     $('#up_descripcion').val(tablatareas[id_tarea].descripcion);
     $('#up_fecha').val(tablatareas[id_tarea].fecha);
-    $('#up_estado').val(tablatareas[id_tarea].estado);
+    _estado ='Pendiente';
+    switch (tablatareas[id_tarea].estado){
+        case 'Pendiente':
+            _estado =0;
+            break;
+        case 'Completada':
+            _estado =1;
+            break;
+        case 'En Curso':
+            _estado =2;
+            break;
+        case 'Caducada':
+            _estado =3;
+            break;
+        case 'Descartada':
+            _estado =4;
+            break;
+    }
+    $('#up_estado').val(_estado);
     $('#up_hidden_id').val(id_tarea);
     $('#up_titulo').focus();
 }
 
 function limpiar_actualizador(){
-    $('#up_titulo').val();
-    $('#up_descripcion').val();
-    $('#up_fecha').val();
-    $('#up_estado').val();
-    $('#up_hidden_id').val();
+    $('#up_titulo').val('');
+    $('#up_descripcion').val('');
+    $('#up_fecha').val('');
+    $('#up_estado').val('');
+    $('#up_hidden_id').val('');
 }

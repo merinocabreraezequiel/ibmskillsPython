@@ -8,6 +8,18 @@ $(document).ready(function(){
         let descripcion = $('#descripcion').val();
         let fecha = $('#fecha').val();
 
+        if(titulo==''){titulo='Sin título';}
+        if(descripcion==''){descripcion='Sin descripción';}
+        if(fecha==''){
+            var date = new Date();
+            var day = date.getDate();
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear();
+            if (month < 10) month = "0" + month;
+            if (day < 10) day = "0" + day;
+            fecha = year + "-" + month + "-" + day; 
+        }
+
         NuevaTarea(titulo, descripcion, fecha);
     });
 
@@ -19,7 +31,7 @@ $(document).ready(function(){
     });
 
     $('#btn_up_desc').click(function() {
-        let up_desc = $('#uup_descripcion').val();
+        let up_desc = $('#up_descripcion').val();
         let up_id = $('#up_hidden_id').val();
 
         ActualizarDescripcion(up_id, up_desc);

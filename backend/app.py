@@ -1,5 +1,4 @@
 from threading import Thread
-#from waitress import serve
 import json
 from time import localtime, sleep, strftime, localtime, time
 import pdoc
@@ -58,8 +57,8 @@ def runFrontEndSrv():
     Description:
         Crea un thread con la aplicación de frontend, lo inicia y realiza una pausa antes de continuar
     """
-    frontEndthread = Thread(target=FrontEndSrv) # Define the Thread with the function
-    frontEndthread.start() # Start the Thread
+    frontEndthread = Thread(target=FrontEndSrv)
+    frontEndthread.start()
     sleep(5)
 
 def FrontEndSrv():
@@ -78,11 +77,11 @@ def FrontEndSrv():
 
 @auth.verify_password
 def verify(username, password):
-    """Check the user/password validation.
+    """Vala usuario y contraseña para la API.
 
     Args: 
-        username <string>: username to validate
-        password <string>: password to validate
+        username <string>: username a validar
+        password <string>: password a validar
     
     Return:
         noname <bool>: check if correpond
@@ -95,17 +94,18 @@ def verify(username, password):
     return USER_DATA.get(username) == password
 
 class nuevaTarea(Resource):
-    """Enrutar una fuente en un destino.
+    """Crea nueva tarea y la agrega a la array.
 
     Args: 
-        destino <string>: código del decoder
-        origen <string>: código del encoder
+        titulo <string>: titulo de la tarea
+        descripcion <string>: descripcion de la tarea
+        fecha <string>: fecha de finalización de la tarea
     
     Return:
-        returnJson <json>: output de la respuesta de ACM500 con la información de la asignación
+        returnJson <json>: Información de si la carga se ha producido correctamente
     
     Description:
-        Asigna desde el ACM500 a un decoder un encoder, recoge la repuesta y devuelve la estructura los datos en un json
+        Crea un nuevo elemento de la clase Tarea y la añade a al Array de tareas, devuelve un json con la información de si ha sido satisfactoria o no
     """
     @auth.login_required
     def get(self, titulo, descripcion, fecha):
@@ -114,9 +114,7 @@ class nuevaTarea(Resource):
         returnData = {}
         try:
             nueva_tarea = Tarea(titulo, descripcion, fecha)
-            print(len(tareas))
             tareas[len(tareas)] = nueva_tarea
-            print(len(tareas))
             returnData['success'] = True
             returnData['message'] = None
         except:
@@ -127,17 +125,16 @@ class nuevaTarea(Resource):
         return returnJSON 
 
 class listarTareas(Resource):
-    """Enrutar una fuente en un destino.
+    """Crea un listado de tareas registradas.
 
     Args: 
-        destino <string>: código del decoder
-        origen <string>: código del encoder
+        None
     
     Return:
-        returnJson <json>: output de la respuesta de ACM500 con la información de la asignación
+        returnJson <json>: Listado de tareas con todos sus datos
     
     Description:
-        Asigna desde el ACM500 a un decoder un encoder, recoge la repuesta y devuelve la estructura los datos en un json
+        Revisa el array de tareas y carga la información de todas las tareas que encuentra, las formatea y las agrega a un json
     """
     @auth.login_required
     def get(self):
@@ -163,23 +160,131 @@ class listarTareas(Resource):
         return returnJSON 
 
 class actualizarTitulo(Resource):
+    """Actualiza el titulo de una tarea.
+
+    Args: 
+        id <string>: id de la tarea a actualizar
+        titulo <string>: nuevo titulo de la tarea
+    
+    Return:
+        returnJson <json>: json con información de correción o fallo
+    
+    Description:
+        Realiza la modificación del titulo del elemento id de la lsita de tareas
+    """
+    @auth.login_required
+    def get(self, id, titulo):
+        returnData = {}
+        try:
+            tareas[id].updateTitulo(titulo)
+            returnData['success'] = True
+            returnData['message'] = None
+        except:
+            returnData['success'] = False
+            returnData['message'] = None
+
+        returnJSON = json.dumps(returnData)
+        return returnJSON
+
+
+class actualizarDescripcion(Resource):
+    """Actualiza la descripción de una tarea.
+
+    Args: 
+        id <string>: id de la tarea a actualizar
+        descripcion <string>: nueva descripción de la tarea
+    
+    Return:
+        returnJson <json>: json con información de correción o fallo
+    
+    Description:
+        Realiza la actualización de la descripción de la tarea
+    """
+    @auth.login_required
+    def get(self, id, desc):
+        returnData = {}
+        try:
+            tareas[id].updateDescripcion(desc)
+            returnData['success'] = True
+            returnData['message'] = None
+        except:
+            returnData['success'] = False
+            returnData['message'] = None
+
+        returnJSON = json.dumps(returnData)
+        return returnJSON
+
+class actualizarFecha(Resource):
     """Enrutar una fuente en un destino.
 
     Args: 
-        destino <string>: código del decoder
-        origen <string>: código del encoder
+        id <string>: id de la tarea a actualizar
+        fecha<string>: nueva fecha de la tarea
     
     Return:
-        returnJson <json>: output de la respuesta de ACM500 con la información de la asignación
+        returnJson <json>: json con información de correción o fallo
     
     Description:
-        Asigna desde el ACM500 a un decoder un encoder, recoge la repuesta y devuelve la estructura los datos en un json
+        Realiza la modificación de la fecha del elemento id de la lsita de tareas
     """
     @auth.login_required
-    def get(self, _id, _titulo):
+    def get(self, id, fecha):
         returnData = {}
         try:
-            Tarea[_id].updateTitulo(_titulo)
+            tareas[id].updateFecha(fecha)
+            returnData['success'] = True
+            returnData['message'] = None
+        except:
+            returnData['success'] = False
+            returnData['message'] = None
+
+        returnJSON = json.dumps(returnData)
+        return returnJSON
+
+class cambiarEstado(Resource):
+    """Enrutar una fuente en un destino.
+
+        Args: 
+        id <string>: id de la tarea a actualizar
+        estado <string>: nuevo estado de la tarea
+    
+    Return:
+        returnJson <json>: json con información de correción o fallo
+    
+    Description:
+        Realiza la modificación del estado del elemento id de la lsita de tareas
+    """
+    @auth.login_required
+    def get(self, id, estado):
+        returnData = {}
+        try:
+            tareas[id].updateEstado(int(estado))
+            returnData['success'] = True
+            returnData['message'] = None
+        except:
+            returnData['success'] = False
+            returnData['message'] = None
+
+        returnJSON = json.dumps(returnData)
+        return returnJSON
+
+class eliminarTarea(Resource):
+    """Enrutar una fuente en un destino.
+
+    Args: 
+        id <string>: id de la tarea a eliminar
+    
+    Return:
+        returnJson <json>: json con información de correción o fallo
+    
+    Description:
+        Elimina el elemento id de la lista de tareas
+    """
+    @auth.login_required
+    def get(self, id):
+        returnData = {}
+        try:
+            tareas.pop(id)
             returnData['success'] = True
             returnData['message'] = None
         except:

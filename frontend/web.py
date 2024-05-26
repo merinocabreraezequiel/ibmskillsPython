@@ -1,7 +1,7 @@
 #!/bin/env python
 """
-ORisTIC like web for blustream python APIRest with Auth
-Usage::
+Servidor Web en python para la solución de gestor de tareas
+Uso::
     python web.py 8080
 """
 import os
@@ -14,7 +14,7 @@ import http.server
 import socketserver
 
 
-#skReading portnumber from command line
+#Si se lanza manualmente, recoge los argumentos para cambiar el puerto
 if sys.argv[1:]:
   port = int(sys.argv[1])
 else:
@@ -46,6 +46,7 @@ configure=loadConfigs()
 
 class handlerhttp(http.server.SimpleHTTPRequestHandler):
     def translate_path(self, path):
+        """Carga el PATH de la aplicación para cargar la web"""
         path = super().translate_path(path)
         relpath = os.path.relpath(path, os.getcwd())
         return os.path.join(configure["webpath"], relpath)

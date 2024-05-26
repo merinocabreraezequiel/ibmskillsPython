@@ -1,5 +1,5 @@
 # PROYECTO FINAL - GESTOR DE TAREAS
-Gestor de tareas en python
+Gestor de tareas web en python
 
 ## Desarollo
 > Lenguages
