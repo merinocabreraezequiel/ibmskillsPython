@@ -1,11 +1,20 @@
 let tablatareas;
 
 function ConvertToJSON(jsonrecibido){
+    /*
+    Simple aplicación para no tener qeu estar llamando a la función json.parse insistentemetne.
+    */
     jsonobj = JSON.parse(jsonrecibido);
     return jsonobj;
 }
 
 function CargarTareas(limpiar=false){
+    /*
+    Llama a la API para cargar la lista de tareas.
+    Elimina la lista previa
+    Crea el nuevo cuerpo de tabla con los datos cargados
+    Realiza una animación para mostrar la web desde arriba en caso de estar fuera de pantalla
+    */
     $.ajax({type:'GET',
         beforeSend: function (xhr){xhr.setRequestHeader("Authorization", "Basic " + btoa(username + ":"+ password));},
         url:'http://127.0.0.1:5000/v1/lt',
@@ -30,6 +39,9 @@ function CargarTareas(limpiar=false){
 }
 
 function NuevaTarea(titulo, descripcion, fecha){
+    /*
+    Crea una nueva tarea en base a los campos que recibe y recarga la lista de tareas
+    */
     $.ajax({type:'GET',
         beforeSend: function (xhr){xhr.setRequestHeader("Authorization", "Basic " + btoa(username + ":"+ password));},
         url:'http://127.0.0.1:5000/v1/nt/'+titulo+'/'+descripcion+'/'+fecha,
@@ -46,6 +58,9 @@ function NuevaTarea(titulo, descripcion, fecha){
 }
 
 function ActualizarTitulo(up_id, up_titulo){
+    /*
+    Llama a la API con el ID  y el titulo para actualizar y llama a la función de limpieza del editor
+    */
     $.ajax({type:'GET',
         beforeSend: function (xhr){xhr.setRequestHeader("Authorization", "Basic " + btoa(username + ":"+ password));},
         url:'http://127.0.0.1:5000/v1/at/'+up_id+'/'+up_titulo,
@@ -60,6 +75,9 @@ function ActualizarTitulo(up_id, up_titulo){
 }
 
 function ActualizarDescripcion(up_id, up_descripcion){
+    /*
+    Llama a la API con el ID  y la descripción para actualizar y llama a la función de limpieza del editor
+    */
     $.ajax({type:'GET',
         beforeSend: function (xhr){xhr.setRequestHeader("Authorization", "Basic " + btoa(username + ":"+ password));},
         url:'http://127.0.0.1:5000/v1/ad/'+up_id+'/'+up_descripcion,
@@ -74,6 +92,9 @@ function ActualizarDescripcion(up_id, up_descripcion){
 }
 
 function ActualizarFecha(up_id, up_fecha){
+    /*
+    Llama a la API con el ID  y la fecha para actualizar y llama a la función de limpieza del editor
+    */
     $.ajax({type:'GET',
         beforeSend: function (xhr){xhr.setRequestHeader("Authorization", "Basic " + btoa(username + ":"+ password));},
         url:'http://127.0.0.1:5000/v1/af/'+up_id+'/'+up_fecha,
@@ -88,6 +109,9 @@ function ActualizarFecha(up_id, up_fecha){
 }
 
 function ActualizarEstado(up_id, up_estado){
+    /*
+    Llama a la API con el ID  y el estado para actualizar y llama a la función de limpieza del editor
+    */
     $.ajax({type:'GET',
         beforeSend: function (xhr){xhr.setRequestHeader("Authorization", "Basic " + btoa(username + ":"+ password));},
         url:'http://127.0.0.1:5000/v1/ce/'+up_id+'/'+up_estado,
@@ -101,6 +125,9 @@ function ActualizarEstado(up_id, up_estado){
     limpiar_actualizador();
 }
 function EliminarTarea(up_id){
+    /*
+    Llama a la API con el ID para elimiar el registro y llama a la función de limpieza del editor
+    */
     $.ajax({type:'GET',
         beforeSend: function (xhr){xhr.setRequestHeader("Authorization", "Basic " + btoa(username + ":"+ password));},
         url:'http://127.0.0.1:5000/v1/et/'+up_id,
@@ -115,6 +142,13 @@ function EliminarTarea(up_id){
 }
 
 function rellenar_actualizador(id_tarea){
+    /*
+    Carga los datos de la tarea a editar mediante el ID
+    Convierte el numero de estado por el texto
+    Focusea en el texto para empezar a editar
+    Muestra el panel de edición
+    */
+    $('#editartarea').css('display','block');
     $('#up_titulo').val(tablatareas[id_tarea].titulo);
     $('#up_descripcion').val(tablatareas[id_tarea].descripcion);
     $('#up_fecha').val(tablatareas[id_tarea].fecha);
@@ -142,9 +176,13 @@ function rellenar_actualizador(id_tarea){
 }
 
 function limpiar_actualizador(){
+    /*
+    Borra los valores de los campos de actualización y oculta el panel
+    */
     $('#up_titulo').val('');
     $('#up_descripcion').val('');
     $('#up_fecha').val('');
     $('#up_estado').val('');
     $('#up_hidden_id').val('');
+    $('#editartarea').css('display','none');
 }
